@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Bookings</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #1e3a5f;
+            color: white;
+            padding: 20px 50px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a5f;
+        }
+
+        .booking-card {
+            background: white;
+            padding: 30px;
+            margin-top: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .booking-card p {
+            margin: 12px 0;
+        }
+
+        .status {
+            color: green;
+            font-weight: bold;
+        }
+
+        .cancel-btn {
+            margin-top: 20px;
+            padding: 11px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #d9534f;
+            color: white;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background: #c9302c;
+        }
+
+        .back-btn {
+            margin-top: 25px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            background: #1e3a5f;
+            color: white;
+            cursor: pointer;
+        }
+
+        .no-booking {
+            background: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 12px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Sports Facility Booking</h2>
+</header>
+
+<div class="container">
+
+    <h1>My Bookings</h1>
+
+    <div id="bookingList"></div>
+
+    <button
+        class="back-btn"
+        onclick="window.location.href='index.html'">
+        ← Back to Home
+    </button>
+
+</div>
+
+
+<script>
+
+function loadBookings() {
+
+    const bookingList =
+        document.getElementById("bookingList");
+
+    let bookings =
+        JSON.parse(localStorage.getItem("bookings")) || [];
+
+    bookingList.innerHTML = "";
+
+
+    if (bookings.length === 0) {
+
+        bookingList.innerHTML = `
+            <div class="no-booking">
+                <h3>No Bookings Found</h3>
+                <p>You currently have no active bookings.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    bookings.forEach(function(booking, index) {
+
+        const card = document.createElement("div");
+
+        card.className = "booking-card";
+
+        card.innerHTML = `
+
+            <p>
+                <b>Booking ID:</b>
+                ${booking.bookingID}
+            </p>
+
+            <p>
+                <b>Facility:</b>
+                ${booking.facility}
+            </p>
+
+            <p>
+                <b>Date:</b>
+                ${booking.date}
+            </p>
+
+            <p>
+                <b>Time:</b>
+                ${booking.startTime}
+                -
+                ${booking.endTime}
+            </p>
+
+            <p>
+                <b>Booked by:</b>
+                ${booking.studentName}
+            </p>
+
+            <p>
+                <b>Student ID:</b>
+                ${booking.studentID}
+            </p>
+
+            <p>
+                <b>Contact:</b>
+                ${booking.contact}
+            </p>
+
+            <p>
+                <b>Purpose:</b>
+                ${booking.purpose}
+            </p>
+
+            <p>
+                <b>Status:</b>
+                <span class="status">
+                    ${booking.status}
+                </span>
+            </p>
+
+            <button
+                class="cancel-btn"
+                onclick="cancelBooking(${index})">
+                Cancel Booking
+            </button>
+
+        `;
+
+        bookingList.appendChild(card);
+
+    });
+
+}
+
+
+function cancelBooking(index) {
+
+    let bookings =
+        JSON.parse(localStorage.getItem("bookings")) || [];
+
+
+    const booking =
+        bookings[index];
+
+
+    const confirmCancel =
+        confirm(
+            "Are you sure you want to cancel booking " +
+            booking.bookingID +
+            "?"
+        );
+
+
+    if (!confirmCancel) {
+
+        return;
+
+    }
+
+
+    // Remove booking
+
+    bookings.splice(index, 1);
+
+
+    // Save updated bookings
+
+    localStorage.setItem(
+        "bookings",
+        JSON.stringify(bookings)
+    );
+
+
+    // Refresh booking list
+
+    loadBookings();
+
+}
+
+
+loadBookings();
+
+</script>
+
+</body>
+</html>

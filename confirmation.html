@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Booking Confirmation</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #1e3a5f;
+            color: white;
+            padding: 20px 50px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .confirmation-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .check {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #1e3a5f;
+        }
+
+        .message {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .details {
+            text-align: left;
+            background: #f4f7fb;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .details p {
+            margin: 12px 0;
+        }
+
+        .status {
+            color: green;
+            font-weight: bold;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 7px;
+            background: #1e3a5f;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>Sports Facility Booking</h2>
+    </header>
+
+    <div class="container">
+
+        <div class="confirmation-box">
+
+            <div class="check">✅</div>
+
+            <h1>Booking Confirmed!</h1>
+
+            <p class="message">
+                Your sports facility booking has been successfully submitted.
+            </p>
+
+            <div class="details">
+<p>
+    <b>Booking ID:</b> BK001
+</p>
+
+<p>
+    <b>Facility:</b> <span id="displayFacility"></span>
+</p>
+
+<p>
+    <b>Date:</b> <span id="displayDate"></span>
+</p>
+
+<p>
+    <b>Time:</b>
+    <span id="displayStartTime"></span> -
+    <span id="displayEndTime"></span>
+</p>
+
+<p>
+    <b>Booked by:</b> <span id="displayStudentName"></span>
+</p>
+
+<p>
+    <b>Student ID:</b> <span id="displayStudentID"></span>
+</p>
+
+<p>
+    <b>Contact:</b> <span id="displayContact"></span>
+</p>
+
+<p>
+    <b>Purpose:</b> <span id="displayPurpose"></span>
+</p>
+
+<p>
+    <b>Status:</b>
+    <span class="status">Confirmed</span>
+</p>
+
+            </div>
+
+            <button onclick="window.location.href='index.html'">
+                Back to Home
+            </button>
+
+        </div>
+
+    </div>
+<script>
+
+    document.getElementById("displayFacility").textContent =
+        localStorage.getItem("facility");
+
+    document.getElementById("displayDate").textContent =
+        localStorage.getItem("date");
+
+    document.getElementById("displayStartTime").textContent =
+        localStorage.getItem("startTime");
+
+    document.getElementById("displayEndTime").textContent =
+        localStorage.getItem("endTime");
+
+    document.getElementById("displayStudentName").textContent =
+        localStorage.getItem("studentName");
+
+    document.getElementById("displayStudentID").textContent =
+        localStorage.getItem("studentID");
+
+    document.getElementById("displayContact").textContent =
+        localStorage.getItem("contact");
+
+    document.getElementById("displayPurpose").textContent =
+        localStorage.getItem("purpose");
+
+</script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Check Availability</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #1e3a5f;
+            color: white;
+            padding: 20px 50px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a5f;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        th {
+            background: #1e3a5f;
+            color: white;
+            padding: 16px;
+        }
+
+        td {
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .booked {
+            color: red;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 9px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .book-btn {
+            background: #1e3a5f;
+            color: white;
+        }
+
+        .view-btn {
+            background: #e8eef5;
+            color: #1e3a5f;
+        }
+
+        .back {
+            margin-top: 25px;
+            background: #ddd;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Sports Facility Booking</h2>
+</header>
+
+<div class="container">
+
+    <h1>Check Facility Availability</h1>
+
+    <p class="description">
+        Check which sports facilities are available before making a booking.
+    </p>
+
+    <table>
+
+        <tr>
+            <th>Sports Facility</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        <tr>
+            <td>🏸 Badminton Court 1</td>
+            <td id="status-Badminton-Court-1"></td>
+            <td id="action-Badminton-Court-1"></td>
+        </tr>
+
+        <tr>
+            <td>🏸 Badminton Court 2</td>
+            <td id="status-Badminton-Court-2"></td>
+            <td id="action-Badminton-Court-2"></td>
+        </tr>
+
+        <tr>
+            <td>🏸 Badminton Court 3</td>
+            <td id="status-Badminton-Court-3"></td>
+            <td id="action-Badminton-Court-3"></td>
+        </tr>
+
+        <tr>
+            <td>⚽ Futsal Court</td>
+            <td id="status-Futsal-Court"></td>
+            <td id="action-Futsal-Court"></td>
+        </tr>
+
+        <tr>
+            <td>🏀 Basketball Court</td>
+            <td id="status-Basketball-Court"></td>
+            <td id="action-Basketball-Court"></td>
+        </tr>
+
+        <tr>
+            <td>🏐 Volleyball Court</td>
+            <td id="status-Volleyball-Court"></td>
+            <td id="action-Volleyball-Court"></td>
+        </tr>
+
+        <tr>
+            <td>🏓 Table Tennis</td>
+            <td id="status-Table-Tennis"></td>
+            <td id="action-Table-Tennis"></td>
+        </tr>
+
+        <tr>
+            <td>🏋️ Gym Equipment</td>
+            <td id="status-Gym-Equipment"></td>
+            <td id="action-Gym-Equipment"></td>
+        </tr>
+
+    </table>
+
+    <button class="back" onclick="history.back()">
+        ← Back to Home
+    </button>
+
+</div>
+
+<script>
+
+const facilities = [
+    "Badminton Court 1",
+    "Badminton Court 2",
+    "Badminton Court 3",
+    "Futsal Court",
+    "Basketball Court",
+    "Volleyball Court",
+    "Table Tennis",
+    "Gym Equipment"
+];
+
+function getId(facility) {
+    return facility.replaceAll(" ", "-");
+}
+
+function showAvailability() {
+
+    let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+    facilities.forEach(function(facility) {
+
+        const id = getId(facility);
+
+        const statusElement =
+            document.getElementById("status-" + id);
+
+        const actionElement =
+            document.getElementById("action-" + id);
+
+        const facilityBookings = bookings.filter(function(booking) {
+            return booking.facility === facility;
+        });
+
+        if (facilityBookings.length > 0) {
+
+            statusElement.innerHTML =
+                '<span class="booked">🔴 Booked</span>';
+
+            actionElement.innerHTML =
+                '<button class="view-btn" onclick="viewSchedule(\'' +
+                facility +
+                '\')">View Schedule</button>';
+
+        } else {
+
+            statusElement.innerHTML =
+                '<span class="available">🟢 Available</span>';
+
+            actionElement.innerHTML =
+                '<button class="book-btn" onclick="goToBooking(\'' +
+                facility +
+                '\')">Book Now</button>';
+        }
+
+    });
+}
+
+function goToBooking(facility) {
+
+    window.location.href =
+        "booking.html?facility=" +
+        encodeURIComponent(facility);
+}
+
+function viewSchedule(facility) {
+
+    let bookings =
+        JSON.parse(localStorage.getItem("bookings")) || [];
+
+    let facilityBookings =
+        bookings.filter(function(booking) {
+            return booking.facility === facility;
+        });
+
+    if (facilityBookings.length === 0) {
+
+        alert(facility + " is currently available.");
+
+        return;
+    }
+
+    let message =
+        facility + " Schedule:\n\n";
+
+    facilityBookings.forEach(function(booking) {
+
+        message +=
+            "Date: " + booking.date + "\n" +
+            "Time: " + booking.startTime +
+            " - " + booking.endTime + "\n" +
+            "Booked by: " + booking.studentName +
+            "\n\n";
+    });
+
+    alert(message);
+}
+
+showAvailability();
+
+</script>
+
+</body>
+</html>

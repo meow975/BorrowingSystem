@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Sports Facility</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #1e3a5f;
+            color: white;
+            padding: 20px 50px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .form-box {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a5f;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 90px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #162d4a;
+        }
+
+        .back-btn {
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: #ddd;
+            color: #333;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>Sports Facility Booking</h2>
+    </header>
+
+    <div class="container">
+
+        <div class="form-box">
+
+            <h1>Book a Sports Facility</h1>
+
+            <p class="description">
+                Fill in the information below to make your booking.
+            </p>
+
+            <form onsubmit="submitBooking(event)">
+
+                <label for="studentName">Student Name</label>
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your name"
+                    required
+                >
+
+                <label for="studentID">Student ID</label>
+                <input
+                    type="text"
+                    id="studentID"
+                    placeholder="Enter your student ID"
+                    required
+                >
+
+                <label for="contact">Contact Number</label>
+                <input
+                    type="tel"
+                    id="contact"
+                    placeholder="Enter your contact number"
+                    required
+                >
+
+                <label for="facility">Sports Facility</label>
+
+                <select id="facility" required>
+
+                    <option value="">
+                        Select a facility
+                    </option>
+
+                    <option value="Badminton Court 1">
+                        Badminton Court 1
+                    </option>
+
+                    <option value="Badminton Court 2">
+                        Badminton Court 2
+                    </option>
+
+                    <option value="Badminton Court 3">
+                        Badminton Court 3
+                    </option>
+
+                    <option value="Futsal Court">
+                        Futsal Court
+                    </option>
+
+                    <option value="Basketball Court">
+                        Basketball Court
+                    </option>
+
+                    <option value="Volleyball Court">
+                        Volleyball Court
+                    </option>
+
+                    <option value="Table Tennis">
+                        Table Tennis
+                    </option>
+
+                    <option value="Gym Equipment">
+                        Gym Equipment
+                    </option>
+
+                </select>
+
+                <label for="date">Booking Date</label>
+                <input
+                    type="date"
+                    id="date"
+                    required
+                >
+
+                <label for="startTime">Start Time</label>
+                <input
+                    type="time"
+                    id="startTime"
+                    required
+                >
+
+                <label for="endTime">End Time</label>
+                <input
+                    type="time"
+                    id="endTime"
+                    required
+                >
+
+                <label for="purpose">Purpose of Booking</label>
+
+                <textarea
+                    id="purpose"
+                    placeholder="Example: Training, competition or recreational activity"
+                    required
+                ></textarea>
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Submit Booking
+                </button>
+
+            </form>
+
+            <button
+                class="back-btn"
+                onclick="history.back()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // Get facility from Availability page
+        const params =
+            new URLSearchParams(window.location.search);
+
+        const selectedFacility =
+            params.get("facility");
+
+        if (selectedFacility) {
+
+            document.getElementById("facility").value =
+                selectedFacility;
+
+        }
+
+
+        // Submit booking
+        function submitBooking(event) {
+
+            event.preventDefault();
+
+            const studentName =
+                document.getElementById("studentName").value;
+
+            const studentID =
+                document.getElementById("studentID").value;
+
+            const contact =
+                document.getElementById("contact").value;
+
+            const facility =
+                document.getElementById("facility").value;
+
+            const date =
+                document.getElementById("date").value;
+
+            const startTime =
+                document.getElementById("startTime").value;
+
+            const endTime =
+                document.getElementById("endTime").value;
+
+            const purpose =
+                document.getElementById("purpose").value;
+
+
+            // Make sure end time is after start time
+
+            if (endTime <= startTime) {
+
+                alert(
+                    "End time must be later than start time."
+                );
+
+                return;
+            }
+
+
+            // Get existing bookings
+
+            let bookings =
+                JSON.parse(
+                    localStorage.getItem("bookings")
+                ) || [];
+
+
+            // Check for booking conflict
+
+            const conflict =
+                bookings.some(function(booking) {
+
+                    return (
+                        booking.facility === facility &&
+                        booking.date === date &&
+                        startTime < booking.endTime &&
+                        endTime > booking.startTime
+                    );
+
+                });
+
+
+            // If already booked
+
+            if (conflict) {
+
+                alert(
+                    "This facility is already booked for the selected date and time. Please choose another time."
+                );
+
+                return;
+            }
+
+
+            // Create new booking
+
+            const newBooking = {
+
+                bookingID:
+                    "BK" +
+                    String(
+                        bookings.length + 1
+                    ).padStart(3, "0"),
+
+                studentName:
+                    studentName,
+
+                studentID:
+                    studentID,
+
+                contact:
+                    contact,
+
+                facility:
+                    facility,
+
+                date:
+                    date,
+
+                startTime:
+                    startTime,
+
+                endTime:
+                    endTime,
+
+                purpose:
+                    purpose,
+
+                status:
+                    "Confirmed"
+
+            };
+
+
+            // Add new booking
+
+            bookings.push(newBooking);
+
+
+            // Save all bookings
+
+            localStorage.setItem(
+                "bookings",
+                JSON.stringify(bookings)
+            );
+
+
+            // Save latest booking
+            // for confirmation page
+
+            localStorage.setItem(
+                "bookingID",
+                newBooking.bookingID
+            );
+
+            localStorage.setItem(
+                "studentName",
+                studentName
+            );
+
+            localStorage.setItem(
+                "studentID",
+                studentID
+            );
+
+            localStorage.setItem(
+                "contact",
+                contact
+            );
+
+            localStorage.setItem(
+                "facility",
+                facility
+            );
+
+            localStorage.setItem(
+                "date",
+                date
+            );
+
+            localStorage.setItem(
+                "startTime",
+                startTime
+            );
+
+            localStorage.setItem(
+                "endTime",
+                endTime
+            );
+
+            localStorage.setItem(
+                "purpose",
+                purpose
+            );
+
+
+            // Go to confirmation page
+
+            window.location.href =
+                "confirmation.html";
+
+        }
+
+    </script>
+
+</body>
+</html>
